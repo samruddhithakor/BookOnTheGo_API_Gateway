@@ -1,0 +1,31 @@
+server:
+  port: 8080 # Gateway service port
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Routing for the Auth service
+        - id: auth-service
+          uri: http://localhost:${VITE_AUTH_SERVICE_PORT} 
+          predicates:
+            - Path=/api/v1/auth/**
+
+       # Routing for the Event service
+        - id: event-service
+          uri: http://localhost:${VITE_EVENT_SERVICE_PORT} 
+          predicates:
+            - Path=/api/v1/events/** 
+
+        # Routing for the Payment service
+        - id: payment-service
+          uri: http://localhost:${VITE_PAYMENT_SERVICE_PORT}
+          predicates:
+            - Path=/api/payment/**
+
+        # Routing for the Notification service
+        - id: notification-service
+          uri: http://localhost:${VITE_NOTIFICATION_SERVICE_PORT}
+          predicates:
+            - Path=/notify/**
+
