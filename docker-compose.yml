@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  main-service:
+    image: anupam1607/bookonthego-microservice:latest //yha p apne dockerhub username and image name daldena bro
+    container_name: main-service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://webgroup5.c81m0iguyvze.us-east-1.rds.amazonaws.com:3306/bookonthego
+      DB_USERNAME: admin
+      DB_PASSWORD: Web2024Group5
+      SPRING_MAIL_USERNAME: metablog.group3@gmail.com
+      SPRING_MAIL_PASSWORD: clud lpbf upnd qnzz
+
+  payment-service:
+    image: samruddhithakor11/payment-microservice:latest
+    container_name: payment-service
+    ports:
+      - "8083:8083"
+    environment:
+      DB_URL: jdbc:mysql://webgroup5.c81m0iguyvze.us-east-1.rds.amazonaws.com:3306/bookonthego
+      DB_USERNAME: admin
+      DB_PASSWORD: Web2024Group5
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      STRIPE_SECRET_KEY: sk_test_51R6hPPGfFnPaK5KMWq1izi3txpb0ZWzmkCnghpvFe9k1c99Z8P3XW1SEYyfgEtYqVGkQbFThimqeJO6ZjKqX5CT5002pUJChtv
+      VITE_AUTH_SERVICE_PORT: http://notification-service:8084
+
+  notification-service:
+    image: samruddhithakor11/notification-microservice:latest
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      DB_URL: jdbc:mysql://webgroup5.c81m0iguyvze.us-east-1.rds.amazonaws.com:3306/bookonthego
+      DB_USERNAME: admin
+      DB_PASSWORD: Web2024Group5
+      MAIL_PORT: 587
+      MAIL_USERNAME: 1ef1ff2266e104
+      MAIL_PASSWORD: 29aeaf46b2dad7
+      VITE_PAYMENT_SERVICE_PORT: http://payment-service:8083
+
+  event-service:
+    image: samruddhithakor11/event-microservice:latest
+    container_name: event-service
+    ports:
+      - "8082:8082"
+    environment:
+      DB_URL: jdbc:mysql://webgroup5.c81m0iguyvze.us-east-1.rds.amazonaws.com:3306/bookonthego
+      DB_USERNAME: admin
+      DB_PASSWORD: Web2024Group5
+      SECRET_KEY: wgyOEvtiUstJKYCQFRtj35fUweCPbQ89PsyjxVNtle4=
